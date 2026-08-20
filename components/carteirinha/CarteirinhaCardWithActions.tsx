@@ -2,12 +2,9 @@
 
 import { useRef } from "react";
 import { CarteirinhaCard } from "@/components/carteirinha/CarteirinhaCard";
-import { SaveShareButtons } from "@/components/carteirinha/SaveShareButtons";
+import { SalvarCarteirinhaButton } from "@/components/carteirinha/SalvarCarteirinhaButton";
 
-type Props = Omit<
-  React.ComponentProps<typeof CarteirinhaCard>,
-  never
->;
+type Props = React.ComponentProps<typeof CarteirinhaCard>;
 
 export function CarteirinhaCardWithActions(props: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -17,7 +14,7 @@ export function CarteirinhaCardWithActions(props: Props) {
       <div ref={cardRef}>
         <CarteirinhaCard {...props} />
       </div>
-      <SaveShareButtons
+      <SalvarCarteirinhaButton
         cardRef={cardRef}
         fileName={`carteirinha-${props.nome.toLowerCase().replace(/\s+/g, "-")}.png`}
       />

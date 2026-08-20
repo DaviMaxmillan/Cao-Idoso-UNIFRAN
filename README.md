@@ -2,7 +2,7 @@
 
 PWA que gera a **Carteira Digital do Cão Idoso** para os tutores atendidos pelo projeto de extensão Cão Idoso da UNIFRAN (10ª edição, evento em 25/09/2026).
 
-O tutor se cadastra pelo celular (dados dele + do cão + foto), o sistema gera a carteirinha personalizada com QR code, e ele salva a imagem no celular ou compartilha no WhatsApp. A equipe do projeto acompanha os cadastros por um painel administrativo e exporta a lista para Excel.
+O tutor se cadastra pelo celular (dados dele + do cão + foto), o sistema gera a carteirinha personalizada e ele salva a imagem no celular. A equipe do projeto acompanha os cadastros por um painel administrativo, exporta a lista para Excel e envia as carteirinhas pelo WhatsApp.
 
 > O disparo mensal de dicas pelo WhatsApp é feito **manualmente pela equipe**, fora deste sistema. O app apenas registra a autorização do tutor e disponibiliza os telefones na exportação.
 
@@ -47,7 +47,7 @@ npm run dev
 | --- | --- |
 | `DATABASE_URL` | String de conexão do PostgreSQL. |
 | `SESSION_SECRET` | Segredo do cookie de sessão do admin (32+ caracteres aleatórios). |
-| `NEXT_PUBLIC_APP_URL` | URL pública da aplicação, usada para montar o link do QR code. |
+| `NEXT_PUBLIC_APP_URL` | URL pública da aplicação. |
 | `EVENT_YEAR` | Ano fixo exibido no número da carteirinha (ex.: `2026`). |
 
 ## Deploy no Railway
@@ -63,7 +63,7 @@ railway run npm run seed:admin -- admin suaSenhaAqui
 ## Estrutura
 
 ```
-app/(public)      telas do tutor: home, como funciona, cadastro, carteirinha, verificação, privacidade
+app/(public)      telas do tutor: home, como funciona, cadastro, carteirinha, privacidade
 app/admin         login e painel da equipe (painel, cadastros, carteirinhas, envios, relatórios, configurações)
 app/api           cadastro, imagens dos cães, login/logout, envios, troca de senha e exportação Excel
 components/       brand (logo, padrões), cadastro, carteirinha, admin, layout, ui (shadcn)

@@ -85,8 +85,5 @@ export async function POST(request: Request) {
     });
   });
 
-  return NextResponse.json({
-    id: cao.id,
-    verificationToken: cao.verificationToken,
-  });
+  return NextResponse.json({ id: cao.id });
 }

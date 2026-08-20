@@ -10,7 +10,6 @@ type Props = {
   tutorNome: string;
   numero: string;
   fotoUrl: string;
-  qrDataUrl: string;
 };
 
 export function CarteirinhaCard({
@@ -21,7 +20,6 @@ export function CarteirinhaCard({
   tutorNome,
   numero,
   fotoUrl,
-  qrDataUrl,
 }: Props) {
   return (
     <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
@@ -34,26 +32,22 @@ export function CarteirinhaCard({
         </span>
       </div>
 
-      <div className="relative mt-4 flex min-h-52 items-end justify-between overflow-hidden bg-brand-blue-deep px-5 pt-6 pb-4 text-white">
+      <div className="relative mt-4 flex min-h-52 items-end overflow-hidden bg-brand-blue-deep px-5 pt-6 pb-4 text-white">
         <BuildingWatermark className="pointer-events-none absolute top-2 right-2 h-20 w-20 text-white" />
-        <div className="relative z-10 space-y-1 text-sm">
-          <p className="text-2xl font-extrabold">{nome}</p>
+        <div className="relative z-10 max-w-[58%] space-y-1 text-sm">
+          <p className="text-2xl font-extrabold break-words">{nome}</p>
           <p>{idadeAnos} anos</p>
-          <p>{raca}</p>
+          <p className="break-words">{raca}</p>
           <p>{pesoKg} kg</p>
-          <p>Tutor(a): {tutorNome}</p>
+          <p className="break-words">Tutor(a): {tutorNome}</p>
           <p className="font-semibold">Cão Idoso nº {numero}</p>
-        </div>
-        <div className="relative z-10 shrink-0 rounded-xl bg-white p-1.5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qrDataUrl} alt="QR code de verificação" className="h-20 w-20" />
         </div>
         <Image
           src={fotoUrl}
           alt={`Foto de ${nome}`}
           width={240}
           height={240}
-          className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-tl-3xl object-cover"
+          className="pointer-events-none absolute right-0 bottom-0 h-44 w-40 rounded-tl-3xl object-cover"
         />
       </div>
 

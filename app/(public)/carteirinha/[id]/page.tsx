@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import QRCode from "qrcode";
 import { Info } from "lucide-react";
 import { db } from "@/lib/db";
 import { formatNumeroCarteirinha } from "@/lib/numero";
@@ -21,12 +20,6 @@ export default async function CarteirinhaPage({
 
   if (!cao) notFound();
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
-  const qrDataUrl = await QRCode.toDataURL(
-    `${appUrl}/c/${cao.verificationToken}`,
-    { margin: 1, width: 240 }
-  );
-
   return (
     <PublicShell backHref="/" heading="Carteirinha pronta">
       <div className="mx-auto max-w-sm space-y-6 pt-2">
@@ -38,7 +31,6 @@ export default async function CarteirinhaPage({
           tutorNome={cao.tutor.nomeCompleto}
           numero={formatNumeroCarteirinha(cao.numeroSequencial)}
           fotoUrl={`/api/imagens/${cao.id}`}
-          qrDataUrl={qrDataUrl}
         />
 
         <div className="flex items-start gap-2 rounded-2xl bg-white/10 p-4 text-sm text-white">

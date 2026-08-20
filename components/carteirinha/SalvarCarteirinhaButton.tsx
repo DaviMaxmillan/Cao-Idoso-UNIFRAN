@@ -1,0 +1,73 @@
+"use client";
+
+import { useState, type RefObject } from "react";
+import { toPng } from "html-to-image";
+import { Download, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+type Props = {
+  cardRef: RefObject<HTMLDivElement | null>;
+  fileName: string;
+};
+
+const TIMEOUT_GERACAO_MS = 15000;
+
+class GeracaoTravadaError extends Error {}
+
+export function SalvarCarteirinhaButton({ cardRef, fileName }: Props) {
+  const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
+
+  async function handleSalvar() {
+    if (!cardRef.current) return;
+    setErro(null);
+    setSalvando(true);
+    try {
+      // html-to-image resolve dentro de um requestAnimationFrame, que não dispara
+      // enquanto a aba está em segundo plano. Sem esse limite, sair do navegador no
+      // meio da geração deixaria o botão travado no spinner para sempre.
+      const dataUrl = await Promise.race([
+        toPng(cardRef.current, { pixelRatio: 2, cacheBust: true }),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new GeracaoTravadaError()), TIMEOUT_GERACAO_MS)
+        ),
+      ]);
+
+      const blob = await (await fetch(dataUrl)).blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setErro(
+        err instanceof GeracaoTravadaError
+          ? "A geração demorou demais. Mantenha esta tela aberta e tente novamente."
+          : "Não foi possível gerar a imagem da carteirinha."
+      );
+    } finally {
+      setSalvando(false);
+    }
+  }
+
+  return (
+    <div className="space-y-2">
+      <Button
+        onClick={handleSalvar}
+        disabled={salvando}
+        size="lg"
+        className="w-full rounded-full bg-brand-blue text-base hover:bg-brand-blue/90"
+      >
+        {salvando ? (
+          <Loader2 className="h-5 w-5 animate-spin" />
+        ) : (
+          <>
+            <Download className="h-5 w-5" /> Salvar no celular
+          </>
+        )}
+      </Button>
+      {erro && <p className="text-center text-sm text-white">{erro}</p>}
+    </div>
+  );
+}
