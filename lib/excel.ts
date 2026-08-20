@@ -1,5 +1,6 @@
 import ExcelJS from "exceljs";
 import { formatNumeroCarteirinha } from "@/lib/numero";
+import { formatWhatsapp } from "@/lib/telefone";
 
 type CadastroRow = {
   numeroSequencial: number;
@@ -29,7 +30,7 @@ export async function buildCadastrosWorkbook(rows: CadastroRow[]) {
     { header: "Tutor", key: "nomeTutor", width: 26 },
     { header: "WhatsApp", key: "whatsapp", width: 18 },
     { header: "E-mail", key: "email", width: 26 },
-    { header: "Autorizou WhatsApp", key: "autoriza", width: 18 },
+    { header: "Autorizou dicas mensais", key: "autoriza", width: 22 },
     { header: "Cadastrado em", key: "createdAt", width: 20 },
   ];
   sheet.getRow(1).font = { bold: true };
@@ -43,7 +44,7 @@ export async function buildCadastrosWorkbook(rows: CadastroRow[]) {
       sexo: row.sexo === "MACHO" ? "Macho" : "Fêmea",
       pesoKg: row.pesoKg,
       nomeTutor: row.nomeTutor,
-      whatsapp: row.whatsapp,
+      whatsapp: formatWhatsapp(row.whatsapp),
       email: row.email ?? "",
       autoriza: row.autorizaWhatsapp ? "Sim" : "Não",
       createdAt: row.createdAt.toLocaleString("pt-BR", {

@@ -27,10 +27,11 @@ export default function PrivacidadePage() {
               Para que usamos
             </h3>
             <p>
-              Para gerar a Carteira Digital do Cão Idoso e, caso você
-              autorize, para enviar mensalmente dicas de cuidado e bem-estar
-              para cães idosos pelo WhatsApp. Não usamos seus dados para
-              nenhuma outra finalidade.
+              Para gerar a Carteira Digital do Cão Idoso e enviá-la para o
+              seu WhatsApp. Além disso, caso você autorize, para enviar
+              mensalmente dicas de cuidado e bem-estar para cães idosos pelo
+              mesmo número. Não usamos seus dados para nenhuma outra
+              finalidade.
             </p>
           </section>
 

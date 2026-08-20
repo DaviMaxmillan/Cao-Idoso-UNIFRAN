@@ -1,6 +1,7 @@
 import { FileSpreadsheet } from "lucide-react";
 import { db } from "@/lib/db";
 import { formatNumeroCarteirinha } from "@/lib/numero";
+import { formatWhatsapp } from "@/lib/telefone";
 import { SummaryCards } from "@/components/admin/SummaryCards";
 import { RegistrationsTable, type RegistrationRow } from "@/components/admin/RegistrationsTable";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ export default async function AdminDashboardPage() {
     nomeCao: cao.nome,
     racaIdade: `${cao.raca} • ${cao.idadeAnos} anos`,
     nomeTutor: cao.tutor.nomeCompleto,
-    whatsapp: cao.tutor.whatsapp,
+    whatsapp: formatWhatsapp(cao.tutor.whatsapp),
     autorizaWhatsapp: cao.tutor.autorizaWhatsapp,
   }));
 

@@ -1,4 +1,4 @@
-import { PawPrint, MessageCircle, IdCard } from "lucide-react";
+import { PawPrint, MessageCircle, MessageCircleOff } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 type Props = {
@@ -15,13 +15,13 @@ export function SummaryCards({ totalCaes, totalAutorizados }: Props) {
     },
     {
       icon: MessageCircle,
-      label: "Tutores com WhatsApp autorizado",
+      label: "Autorizaram as dicas mensais",
       value: totalAutorizados,
     },
     {
-      icon: IdCard,
-      label: "Carteirinhas geradas",
-      value: totalCaes,
+      icon: MessageCircleOff,
+      label: "Não autorizaram — não enviar",
+      value: totalCaes - totalAutorizados,
     },
   ];
 

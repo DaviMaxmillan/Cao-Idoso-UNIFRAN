@@ -60,8 +60,9 @@ export default async function CarteirinhaProntaPage({
               </>
             ) : (
               <li className="text-muted-foreground">
-                Você optou por não receber as dicas mensais. Se mudar de ideia,
-                fale com a equipe do projeto no dia do evento.
+                Você receberá a carteirinha no WhatsApp, mas optou por não
+                receber as dicas mensais. Se mudar de ideia, fale com a equipe
+                do projeto no dia do evento.
               </li>
             )}
           </ul>

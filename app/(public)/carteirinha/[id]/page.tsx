@@ -44,8 +44,7 @@ export default async function CarteirinhaPage({
         <div className="flex items-start gap-2 rounded-2xl bg-white/10 p-4 text-sm text-white">
           <Info className="mt-0.5 h-4 w-4 shrink-0" />
           <p>
-            Salve a imagem no seu celular — ela é a sua carteirinha. O QR code
-            permite conferir o cadastro a qualquer momento.
+            Você também receberá esta carteirinha no WhatsApp cadastrado.
           </p>
         </div>
 

@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import Link from "next/link";
+import { ExternalLink, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -56,7 +57,8 @@ export function RegistrationsTable({ rows }: { rows: RegistrationRow[] }) {
               <TableHead>Cão</TableHead>
               <TableHead>Tutor</TableHead>
               <TableHead>WhatsApp</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>Dicas mensais</TableHead>
+              <TableHead>Carteirinha</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -76,18 +78,29 @@ export function RegistrationsTable({ rows }: { rows: RegistrationRow[] }) {
                 <TableCell>
                   {row.autorizaWhatsapp ? (
                     <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-                      WhatsApp autorizado
+                      Dicas autorizadas
                     </Badge>
                   ) : (
-                    <Badge variant="secondary">Aguardando autorização</Badge>
+                    <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100">
+                      Não enviar dicas
+                    </Badge>
                   )}
+                </TableCell>
+                <TableCell>
+                  <Link
+                    href={`/carteirinha/${row.id}`}
+                    target="_blank"
+                    className="inline-flex items-center gap-1 text-brand-blue underline underline-offset-4"
+                  >
+                    Abrir <ExternalLink className="h-3 w-3" />
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}
             {filtradas.length === 0 && (
               <TableRow>
                 <TableCell
-                  colSpan={5}
+                  colSpan={6}
                   className="py-8 text-center text-muted-foreground"
                 >
                   Nenhum cadastro encontrado.
