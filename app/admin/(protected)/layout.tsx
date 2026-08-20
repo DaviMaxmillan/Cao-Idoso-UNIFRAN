@@ -1,6 +1,8 @@
+import { UserCircle2 } from "lucide-react";
 import { requireAdmin } from "@/lib/auth";
-import { PawHeartLogo } from "@/components/brand/PawHeartLogo";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { LogoutButton } from "@/components/admin/LogoutButton";
+import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export default async function AdminProtectedLayout({
   children,
@@ -10,27 +12,26 @@ export default async function AdminProtectedLayout({
   const session = await requireAdmin();
 
   return (
-    <div className="min-h-dvh bg-muted/30">
-      <header className="flex items-center justify-between border-b bg-white px-6 py-4">
-        <div className="flex items-center gap-2">
-          <PawHeartLogo className="h-8 w-8 text-brand-blue" />
-          <div>
-            <p className="text-sm font-bold text-brand-navy leading-tight">
-              Cão Idoso UNIFRAN
-            </p>
-            <p className="text-xs text-muted-foreground leading-tight">
-              Administração
-            </p>
+    <div className="flex min-h-dvh bg-muted/30">
+      <AdminSidebar />
+
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex items-center justify-between border-b bg-white px-8 py-4">
+          <h1 className="text-xl font-bold text-brand-navy">
+            Cão Idoso UNIFRAN — Administração
+          </h1>
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+              <UserCircle2 className="h-5 w-5" />
+              {session.adminUsername}
+            </span>
+            <LogoutButton />
           </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">
-            {session.adminUsername}
-          </span>
-          <LogoutButton />
-        </div>
-      </header>
-      <main className="mx-auto max-w-6xl px-6 py-8">{children}</main>
+        </header>
+
+        <main className="flex-1 px-8 py-8">{children}</main>
+        <SiteFooter />
+      </div>
     </div>
   );
 }

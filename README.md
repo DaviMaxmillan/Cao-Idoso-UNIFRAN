@@ -64,13 +64,28 @@ railway run npm run seed:admin -- admin suaSenhaAqui
 
 ```
 app/(public)      telas do tutor: home, como funciona, cadastro, carteirinha, verificação, privacidade
-app/admin         login e painel da equipe do projeto
-app/api           cadastro, imagens dos cães, login/logout e exportação Excel
+app/admin         login e painel da equipe (painel, cadastros, carteirinhas, envios, relatórios, configurações)
+app/api           cadastro, imagens dos cães, login/logout, envios, troca de senha e exportação Excel
 components/       brand (logo, padrões), cadastro, carteirinha, admin, layout, ui (shadcn)
-lib/              prisma client, sessão, validação, geração do número, exportação Excel
+lib/              prisma client, sessão, validação, número da carteirinha, telefone, exportação Excel
 prisma/           schema e migrations
-scripts/          seed do admin e geração dos ícones/placeholder
+scripts/          seed do admin, ícones do PWA e foto de destaque
 ```
+
+Tudo sob `/admin` e `/api/admin` exige sessão — o `proxy.ts` protege por padrão e abre exceção só para login/logout, para que uma rota nova já nasça protegida.
+
+### Painel da equipe
+
+| Aba | O que faz |
+| --- | --- |
+| Painel | Cards de resumo, últimos cadastros, exportação e cópia da lista |
+| Cadastros | Tabela completa com busca e exportação para Excel |
+| Carteirinhas | Grade com as carteirinhas geradas, para abrir e baixar a imagem |
+| Envios | Controle de quais carteirinhas já foram enviadas e cópia dos números autorizados |
+| Relatórios | Perfil dos cães: faixa etária, sexo, raças e autorização das dicas |
+| Configurações | Troca da senha do admin e dados da edição |
+
+O sistema **não** envia mensagens pelo WhatsApp. O botão "Copiar lista para WhatsApp" copia os números de quem autorizou as dicas mensais, para a equipe colar na lista de transmissão do próprio aparelho.
 
 ## Pendências
 

@@ -24,30 +24,38 @@ export type RegistrationRow = {
   autorizaWhatsapp: boolean;
 };
 
-export function RegistrationsTable({ rows }: { rows: RegistrationRow[] }) {
-  const [busca, setBusca] = useState("");
+export function RegistrationsTable({
+  rows,
+  busca: comBusca = true,
+}: {
+  rows: RegistrationRow[];
+  busca?: boolean;
+}) {
+  const [termoBusca, setTermoBusca] = useState("");
 
   const filtradas = useMemo(() => {
-    const termo = busca.trim().toLowerCase();
+    const termo = termoBusca.trim().toLowerCase();
     if (!termo) return rows;
     return rows.filter(
       (row) =>
         row.nomeCao.toLowerCase().includes(termo) ||
         row.nomeTutor.toLowerCase().includes(termo)
     );
-  }, [rows, busca]);
+  }, [rows, termoBusca]);
 
   return (
     <div className="space-y-4">
-      <div className="relative max-w-sm">
-        <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          placeholder="Buscar por nome do cão ou tutor..."
-          className="pl-9"
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-        />
-      </div>
+      {comBusca && (
+        <div className="relative max-w-sm">
+          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Buscar por nome do cão ou tutor..."
+            className="pl-9"
+            value={termoBusca}
+            onChange={(e) => setTermoBusca(e.target.value)}
+          />
+        </div>
+      )}
 
       <div className="overflow-x-auto rounded-lg border bg-white">
         <Table>

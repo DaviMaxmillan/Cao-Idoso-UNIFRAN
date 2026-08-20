@@ -1,12 +1,17 @@
-import { PawPrint, MessageCircle, MessageCircleOff } from "lucide-react";
+import { PawPrint, MessageCircle, MessageCircleOff, Send } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 type Props = {
   totalCaes: number;
   totalAutorizados: number;
+  totalEnviados: number;
 };
 
-export function SummaryCards({ totalCaes, totalAutorizados }: Props) {
+export function SummaryCards({
+  totalCaes,
+  totalAutorizados,
+  totalEnviados,
+}: Props) {
   const items = [
     {
       icon: PawPrint,
@@ -23,10 +28,15 @@ export function SummaryCards({ totalCaes, totalAutorizados }: Props) {
       label: "Não autorizaram — não enviar",
       value: totalCaes - totalAutorizados,
     },
+    {
+      icon: Send,
+      label: "Carteirinhas enviadas",
+      value: `${totalEnviados}/${totalCaes}`,
+    },
   ];
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {items.map(({ icon: Icon, label, value }) => (
         <Card key={label}>
           <CardContent className="flex items-center gap-4">

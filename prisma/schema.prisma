@@ -46,6 +46,9 @@ model Cao {
   numeroSequencial  Int      @default(autoincrement())
   verificationToken String   @unique @default(uuid())
 
+  // marcado pela equipe no painel quando a carteirinha é enviada pelo WhatsApp
+  carteirinhaEnviadaEm DateTime?
+
   createdAt         DateTime @default(now())
 
   @@index([tutorId])

@@ -1,48 +1,57 @@
+import Link from "next/link";
 import { FileSpreadsheet } from "lucide-react";
-import { db } from "@/lib/db";
-import { formatNumeroCarteirinha } from "@/lib/numero";
 import { formatWhatsapp } from "@/lib/telefone";
+import { listarCadastros, resumo, toRegistrationRow } from "@/lib/cadastros";
 import { SummaryCards } from "@/components/admin/SummaryCards";
-import { RegistrationsTable, type RegistrationRow } from "@/components/admin/RegistrationsTable";
+import { RegistrationsTable } from "@/components/admin/RegistrationsTable";
+import { CopiarNumerosButton } from "@/components/admin/CopiarNumerosButton";
 import { Button } from "@/components/ui/button";
 
 export default async function AdminDashboardPage() {
-  const caes = await db.cao.findMany({
-    orderBy: { numeroSequencial: "desc" },
-    include: { tutor: true },
-  });
+  const cadastros = await listarCadastros();
+  const { totalCaes, totalAutorizados, totalEnviados } = resumo(cadastros);
 
-  const totalCaes = caes.length;
-  const totalAutorizados = caes.filter((c) => c.tutor.autorizaWhatsapp).length;
+  const numerosAutorizados = cadastros
+    .filter((c) => c.tutor.autorizaWhatsapp)
+    .map((c) => formatWhatsapp(c.tutor.whatsapp));
 
-  const rows: RegistrationRow[] = caes.map((cao) => ({
-    id: cao.id,
-    numero: formatNumeroCarteirinha(cao.numeroSequencial),
-    nomeCao: cao.nome,
-    racaIdade: `${cao.raca} • ${cao.idadeAnos} anos`,
-    nomeTutor: cao.tutor.nomeCompleto,
-    whatsapp: formatWhatsapp(cao.tutor.whatsapp),
-    autorizaWhatsapp: cao.tutor.autorizaWhatsapp,
-  }));
+  const ultimos = cadastros.slice(0, 5).map(toRegistrationRow);
 
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold text-brand-navy">Painel</h1>
-        <Button
-          render={<a href="/api/admin/export" />}
-          nativeButton={false}
-          className="bg-brand-blue hover:bg-brand-blue/90"
-        >
-          <FileSpreadsheet className="h-4 w-4" /> Exportar para Excel
-        </Button>
+        <h2 className="text-2xl font-bold text-brand-navy">Painel</h2>
+        <div className="flex items-center gap-3">
+          <Button
+            render={<a href="/api/admin/export" />}
+            nativeButton={false}
+            variant="outline"
+          >
+            <FileSpreadsheet className="h-4 w-4" /> Exportar para Excel
+          </Button>
+          <CopiarNumerosButton numeros={numerosAutorizados} />
+        </div>
       </div>
 
-      <SummaryCards totalCaes={totalCaes} totalAutorizados={totalAutorizados} />
+      <SummaryCards
+        totalCaes={totalCaes}
+        totalAutorizados={totalAutorizados}
+        totalEnviados={totalEnviados}
+      />
 
       <div>
-        <h2 className="mb-3 text-lg font-bold text-brand-navy">Cadastros</h2>
-        <RegistrationsTable rows={rows} />
+        <div className="mb-3 flex items-center justify-between">
+          <h3 className="text-lg font-bold text-brand-navy">
+            Últimos cadastros
+          </h3>
+          <Link
+            href="/admin/cadastros"
+            className="text-sm font-medium text-brand-blue underline underline-offset-4"
+          >
+            Ver todos
+          </Link>
+        </div>
+        <RegistrationsTable rows={ultimos} busca={false} />
       </div>
     </div>
   );
