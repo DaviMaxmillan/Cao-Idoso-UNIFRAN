@@ -7,10 +7,26 @@ declare global {
   var __prismaClient: PrismaClient | undefined;
 }
 
-const pool =
-  globalThis.__prismaPool ??
-  new pg.Pool({ connectionString: process.env.DATABASE_URL });
+function criarPool() {
+  const pool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+    // Se o Postgres for reiniciado ou derrubar uma conexão ociosa, o cliente
+    // afetado emite 'error'. Sem este handler o Node encerra o processo inteiro
+    // por evento de erro não tratado — o pool sozinho já descarta a conexão
+    // quebrada e abre outra na próxima consulta.
+    max: 10,
+    idleTimeoutMillis: 30_000,
+    connectionTimeoutMillis: 10_000,
+  });
 
+  pool.on("error", (erro) => {
+    console.error("[db] conexão ociosa caiu, será descartada:", erro.message);
+  });
+
+  return pool;
+}
+
+const pool = globalThis.__prismaPool ?? criarPool();
 const adapter = new PrismaPg(pool);
 
 export const db = globalThis.__prismaClient ?? new PrismaClient({ adapter });

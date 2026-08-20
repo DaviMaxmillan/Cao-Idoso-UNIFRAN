@@ -2,32 +2,26 @@ import path from "node:path";
 import sharp from "sharp";
 
 /**
- * Extrai o Golden Retriever do mockup original (Docs/1.jpeg) e recorta o fundo,
- * gerando um PNG com transparência — assim o cão aparece "solto" sobre o azul,
- * como no layout aprovado, em vez de dentro de uma moldura.
+ * Recorta o fundo branco da foto do Golden (Docs/golden.jpg) e gera um PNG com
+ * transparência, para o cão aparecer solto sobre o azul da seção.
  *
- * O recorte é feito por preenchimento a partir das bordas: só o fundo conectado
- * à borda vira transparente, então o pelo claro do focinho e do peito (que é
- * quase branco) é preservado por estar cercado pelo resto do cão.
+ * O recorte é por preenchimento a partir das bordas: só o branco conectado à
+ * borda vira transparente. Assim, qualquer região clara cercada pelo cão (um
+ * reflexo no pelo, por exemplo) é preservada.
  */
-const RECORTE = { left: 368, top: 472, width: 408, height: 388 };
 
-/**
- * O pelo do Golden é sempre alaranjado — o canal vermelho fica bem acima do
- * azul. Tanto o fundo azul quanto a curva branca (e a transição serrilhada
- * entre os dois) têm azul próximo ou acima do vermelho, o que separa os dois
- * casos sem depender de um limiar de brilho.
- */
+/** O fundo é branco puro; o pelo mais claro do cão fica bem abaixo disso. */
 function ehFundo(r: number, g: number, b: number) {
-  return b >= r - 15;
+  const claro = r > 240 && g > 240 && b > 240;
+  const semCor = Math.max(r, g, b) - Math.min(r, g, b) < 15;
+  return claro && semCor;
 }
 
 async function main() {
-  const origem = path.resolve("Docs/1.jpeg");
+  const origem = path.resolve("Docs/golden.jpg");
   const destino = path.resolve("public/hero-golden.png");
 
   const { data, info } = await sharp(origem)
-    .extract(RECORTE)
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
@@ -46,10 +40,10 @@ async function main() {
     fila.push(x, y);
   };
 
-  // A borda de baixo é toda peito do cão (a foto é cortada ali), e esse pelo é
-  // quase branco. Semear a partir dela comeria o peito, então ficam só o topo
-  // e as laterais.
-  for (let x = 0; x < width; x++) enfileirar(x, 0);
+  for (let x = 0; x < width; x++) {
+    enfileirar(x, 0);
+    enfileirar(x, height - 1);
+  }
   for (let y = 0; y < height; y++) {
     enfileirar(0, y);
     enfileirar(width - 1, y);
@@ -65,11 +59,8 @@ async function main() {
     enfileirar(x, y - 1);
   }
 
-  // 560px cobre com folga os 256px em que a imagem é exibida, mesmo em telas
-  // 2x; a paleta reduz o arquivo sem perda perceptível neste tamanho.
   const info2 = await sharp(data, { raw: { width, height, channels } })
     .trim({ threshold: 1 })
-    .resize({ width: 560 })
     .png({ compressionLevel: 9, palette: true, quality: 90 })
     .toFile(destino);
 

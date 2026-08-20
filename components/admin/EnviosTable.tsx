@@ -4,7 +4,6 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -62,11 +61,11 @@ export function EnviosTable({ rows }: { rows: EnvioRow[] }) {
             {rows.map((row) => (
               <TableRow key={row.id} data-pendente={pendente || undefined}>
                 <TableCell>
-                  <Checkbox
+                  <input
+                    type="checkbox"
+                    className="size-5 accent-brand-blue"
                     checked={row.enviadaEm !== null}
-                    onCheckedChange={(checked) =>
-                      alternar(row.id, checked === true)
-                    }
+                    onChange={(e) => alternar(row.id, e.target.checked)}
                     aria-label={`Marcar carteirinha de ${row.nomeCao} como enviada`}
                   />
                 </TableCell>

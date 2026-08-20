@@ -25,6 +25,12 @@ export function PublicShell({
     <div className="flex min-h-dvh flex-col">
       <header className="relative overflow-hidden bg-white px-6 pt-10 pb-2 text-center">
         <DotPattern className="pointer-events-none absolute top-6 right-4 h-16 w-16 text-brand-blue-light" />
+        {comLogoUnifran && (
+          <UnifranLogo
+            decorativo
+            className="pointer-events-none absolute top-12 left-3 w-52 opacity-15"
+          />
+        )}
         {backHref && (
           <Link
             href={backHref}
@@ -34,14 +40,15 @@ export function PublicShell({
             <ArrowLeft className="h-6 w-6" />
           </Link>
         )}
-        <PawHeartLogo className="mx-auto h-14 w-14 text-brand-blue" />
-        <h1 className="mt-2 text-2xl font-extrabold leading-tight text-brand-navy">
-          Cão Idoso
-          <br />
-          UNIFRAN
-        </h1>
-        <div className="mx-auto mt-2 h-1 w-24 rounded-full bg-brand-blue" />
-        {comLogoUnifran && <UnifranLogo className="mx-auto mt-4 w-52" />}
+        <div className="relative z-10">
+          <PawHeartLogo className="mx-auto h-14 w-14 text-brand-blue" />
+          <h1 className="mt-2 text-2xl font-extrabold leading-tight text-brand-navy">
+            Cão Idoso
+            <br />
+            UNIFRAN
+          </h1>
+          <div className="mx-auto mt-2 h-1 w-24 rounded-full bg-brand-blue" />
+        </div>
         {heading && (
           <h2 className="mt-4 text-3xl font-extrabold text-brand-navy">{heading}</h2>
         )}

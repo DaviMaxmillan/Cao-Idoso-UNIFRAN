@@ -15,7 +15,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -33,7 +32,9 @@ export function CadastroForm() {
   const [comprimindo, setComprimindo] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [erroEnvio, setErroEnvio] = useState<string | null>(null);
+  const [erroEtapa, setErroEtapa] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const {
     register,
@@ -72,7 +73,18 @@ export function CadastroForm() {
 
   async function irParaEtapa2() {
     const valido = await trigger(tutorFields);
-    if (valido) setStep(2);
+    if (valido) {
+      setErroEtapa(null);
+      setStep(2);
+      return;
+    }
+
+    // Sem isto o botão parece "não fazer nada": o campo que barrou pode estar
+    // fora da área visível, especialmente no celular.
+    setErroEtapa("Confira os campos destacados para continuar.");
+    formRef.current
+      ?.querySelector<HTMLElement>("[aria-invalid='true'], .text-destructive")
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
   async function onSubmit(values: CadastroFormValues) {
@@ -124,6 +136,7 @@ export function CadastroForm() {
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit(onSubmit)}
       className="rounded-3xl bg-white p-6 shadow-xl"
     >
@@ -178,42 +191,43 @@ export function CadastroForm() {
               )}
             </div>
 
-            <label className="flex items-start gap-2 text-sm text-foreground">
-              <Controller
-                name="autorizaWhatsapp"
-                control={control}
-                render={({ field }) => (
-                  <Checkbox
-                    className="mt-0.5"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                )}
+            {/*
+              Checkbox nativo de propósito. É o campo de consentimento, e ele
+              precisa funcionar em qualquer celular que aparecer no evento —
+              o componente estilizado não marcava em toque real no aparelho.
+              O texto vai dentro de um único <span> para o rótulo não virar
+              vários itens de flex e quebrar em colunas no celular.
+            */}
+            <label className="flex items-start gap-3 text-sm text-foreground">
+              <input
+                type="checkbox"
+                className="mt-0.5 size-5 shrink-0 accent-brand-blue"
+                {...register("autorizaWhatsapp")}
               />
-              Autorizo receber dicas mensais do Projeto Cão Idoso pelo{" "}
-              <span className="font-semibold text-brand-blue">WhatsApp</span>
+              <span>
+                Autorizo receber dicas mensais do Projeto Cão Idoso pelo{" "}
+                <span className="font-semibold text-brand-blue">WhatsApp</span>
+              </span>
             </label>
 
-            <label className="flex items-start gap-2 text-sm text-foreground">
-              <Controller
-                name="aceitouPoliticaPrivacidade"
-                control={control}
-                render={({ field }) => (
-                  <Checkbox
-                    className="mt-0.5"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                )}
+            <label className="flex items-start gap-3 text-sm text-foreground">
+              <input
+                type="checkbox"
+                className="mt-0.5 size-5 shrink-0 accent-brand-blue"
+                {...register("aceitouPoliticaPrivacidade")}
               />
-              Li e concordo com a{" "}
-              <Link
-                href="/privacidade"
-                target="_blank"
-                className="text-brand-blue underline"
-              >
-                política de privacidade
-              </Link>
+              <span>
+                Li e concordo com a{" "}
+                <Link
+                  href="/privacidade"
+                  target="_blank"
+                  // sem isto, tocar no link marcaria o checkbox junto
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-brand-blue underline"
+                >
+                  política de privacidade
+                </Link>
+              </span>
             </label>
             {errors.aceitouPoliticaPrivacidade && (
               <p className="text-xs text-destructive">
@@ -221,6 +235,12 @@ export function CadastroForm() {
               </p>
             )}
           </div>
+
+          {erroEtapa && (
+            <p className="mt-4 text-center text-sm text-destructive">
+              {erroEtapa}
+            </p>
+          )}
 
           <Button
             type="button"

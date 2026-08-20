@@ -14,8 +14,8 @@ export function HeroDogPhoto({ className }: Props) {
       <Image
         src="/hero-golden.png"
         alt="Golden Retriever idoso atendido pelo projeto"
-        width={700}
-        height={629}
+        width={271}
+        height={341}
         priority
         className="w-64 max-w-full"
       />

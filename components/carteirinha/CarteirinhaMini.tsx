@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { PawHeartLogo } from "@/components/brand/PawHeartLogo";
-import { BuildingWatermark } from "@/components/brand/BuildingWatermark";
+import { UnifranLogo } from "@/components/brand/UnifranLogo";
 
 type Props = {
   nome: string;
@@ -21,7 +21,10 @@ export function CarteirinhaMini({ nome, fotoUrl }: Props) {
         />
       </div>
       <div className="relative flex flex-1 items-center gap-2 px-3">
-        <BuildingWatermark className="pointer-events-none absolute right-1 bottom-1 h-14 w-14 text-brand-blue-deep" />
+        <UnifranLogo
+          decorativo
+          className="pointer-events-none absolute right-1 bottom-1 w-20 opacity-15"
+        />
         <PawHeartLogo className="relative z-10 h-7 w-7 shrink-0 text-brand-blue" />
         <span className="relative z-10 text-xs font-bold leading-tight text-brand-navy">
           Cão Idoso

@@ -11,7 +11,7 @@ import {
   Settings,
 } from "lucide-react";
 import { PawHeartLogo } from "@/components/brand/PawHeartLogo";
-import { BuildingWatermark } from "@/components/brand/BuildingWatermark";
+import { UnifranLogo } from "@/components/brand/UnifranLogo";
 import { cn } from "@/lib/utils";
 
 const itens = [
@@ -60,7 +60,10 @@ export function AdminSidebar() {
         })}
       </nav>
 
-      <BuildingWatermark className="pointer-events-none absolute -bottom-4 left-2 h-40 w-40 text-brand-blue-deep/25" />
+      <UnifranLogo
+        decorativo
+        className="pointer-events-none absolute bottom-6 left-4 w-44 opacity-20"
+      />
     </aside>
   );
 }
