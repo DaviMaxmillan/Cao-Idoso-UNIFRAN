@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { PawHeartLogo } from "@/components/brand/PawHeartLogo";
-import { BuildingWatermark } from "@/components/brand/BuildingWatermark";
 
 type Props = {
   nome: string;
@@ -33,7 +32,6 @@ export function CarteirinhaCard({
       </div>
 
       <div className="relative mt-4 flex min-h-52 items-end overflow-hidden bg-brand-blue-deep px-5 pt-6 pb-4 text-white">
-        <BuildingWatermark className="pointer-events-none absolute top-2 right-2 h-20 w-20 text-white" />
         <div className="relative z-10 max-w-[58%] space-y-1 text-sm">
           <p className="text-2xl font-extrabold break-words">{nome}</p>
           <p>{idadeAnos} anos</p>
