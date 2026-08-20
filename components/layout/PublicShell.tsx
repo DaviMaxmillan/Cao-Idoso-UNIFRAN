@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PawHeartLogo } from "@/components/brand/PawHeartLogo";
+import { UnifranLogo } from "@/components/brand/UnifranLogo";
 import { DotPattern } from "@/components/brand/DotPattern";
 import { WaveDivider } from "@/components/brand/WaveDivider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -8,11 +9,18 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 type Props = {
   backHref?: string;
   heading?: string;
+  /** Exibe o logo institucional da UNIFRAN no topo branco (usado na home). */
+  comLogoUnifran?: boolean;
   children: React.ReactNode;
 };
 
 /** Moldura compartilhada pelas telas públicas: topo branco com logo, curva azul, rodapé. */
-export function PublicShell({ backHref, heading, children }: Props) {
+export function PublicShell({
+  backHref,
+  heading,
+  comLogoUnifran = false,
+  children,
+}: Props) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="relative overflow-hidden bg-white px-6 pt-10 pb-2 text-center">
@@ -33,6 +41,7 @@ export function PublicShell({ backHref, heading, children }: Props) {
           UNIFRAN
         </h1>
         <div className="mx-auto mt-2 h-1 w-24 rounded-full bg-brand-blue" />
+        {comLogoUnifran && <UnifranLogo className="mx-auto mt-4 w-52" />}
         {heading && (
           <h2 className="mt-4 text-3xl font-extrabold text-brand-navy">{heading}</h2>
         )}

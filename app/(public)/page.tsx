@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <PublicShell>
+    <PublicShell comLogoUnifran>
       <div className="mx-auto max-w-sm pt-2">
-        <HeroDogPhoto className="mb-6" />
+        <HeroDogPhoto />
 
         <div className="rounded-3xl bg-white p-6 text-center shadow-xl">
           <div className="mb-3 flex items-center justify-center gap-3">

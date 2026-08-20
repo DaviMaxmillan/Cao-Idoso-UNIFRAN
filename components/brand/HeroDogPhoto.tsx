@@ -1,20 +1,23 @@
 import Image from "next/image";
-import { BuildingWatermark } from "@/components/brand/BuildingWatermark";
 
 type Props = { className?: string };
 
-/** Foto de destaque do Golden Retriever, usada na home e na tela "Como funciona". */
+/**
+ * Golden Retriever recortado, sem moldura, sobre o azul da seção — como no
+ * layout aprovado. A imagem encosta na base do bloco de propósito: a foto é
+ * cortada na altura do peito, e o corte reto some ao encontrar o cartão branco
+ * logo abaixo.
+ */
 export function HeroDogPhoto({ className }: Props) {
   return (
-    <div className={`relative ${className ?? ""}`}>
-      <BuildingWatermark className="pointer-events-none absolute right-2 bottom-2 h-24 w-24 text-white" />
+    <div className={`flex items-end justify-center ${className ?? ""}`}>
       <Image
-        src="/hero-golden.jpg"
+        src="/hero-golden.png"
         alt="Golden Retriever idoso atendido pelo projeto"
-        width={512}
-        height={512}
+        width={700}
+        height={629}
         priority
-        className="mx-auto aspect-square w-56 rounded-full border-4 border-white object-cover shadow-lg"
+        className="w-64 max-w-full"
       />
     </div>
   );
