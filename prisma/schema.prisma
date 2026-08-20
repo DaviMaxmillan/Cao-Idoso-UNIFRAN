@@ -1,0 +1,59 @@
+// Prisma schema — Cão Idoso UNIFRAN
+// docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Sexo {
+  MACHO
+  FEMEA
+}
+
+model Tutor {
+  id                         String   @id @default(uuid())
+  nomeCompleto               String
+  whatsapp                   String   @unique
+  email                      String?
+  autorizaWhatsapp           Boolean  @default(false)
+  aceitouPoliticaPrivacidade Boolean  @default(false)
+  politicaAceitaEm           DateTime?
+  politicaVersao             String?
+  createdAt                  DateTime @default(now())
+
+  caes Cao[]
+}
+
+model Cao {
+  id                String   @id @default(uuid())
+  tutorId           String
+  tutor             Tutor    @relation(fields: [tutorId], references: [id])
+
+  nome              String
+  idadeAnos         Int
+  raca              String
+  sexo              Sexo
+  pesoKg            Decimal  @db.Decimal(5, 2)
+
+  fotoBytes         Bytes
+  fotoMimeType      String
+
+  numeroSequencial  Int      @default(autoincrement())
+  verificationToken String   @unique @default(uuid())
+
+  createdAt         DateTime @default(now())
+
+  @@index([tutorId])
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}

@@ -1,0 +1,45 @@
+import { PawPrint, MessageCircle, IdCard } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+
+type Props = {
+  totalCaes: number;
+  totalAutorizados: number;
+};
+
+export function SummaryCards({ totalCaes, totalAutorizados }: Props) {
+  const items = [
+    {
+      icon: PawPrint,
+      label: "Cães cadastrados",
+      value: totalCaes,
+    },
+    {
+      icon: MessageCircle,
+      label: "Tutores com WhatsApp autorizado",
+      value: totalAutorizados,
+    },
+    {
+      icon: IdCard,
+      label: "Carteirinhas geradas",
+      value: totalCaes,
+    },
+  ];
+
+  return (
+    <div className="grid gap-4 sm:grid-cols-3">
+      {items.map(({ icon: Icon, label, value }) => (
+        <Card key={label}>
+          <CardContent className="flex items-center gap-4">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-blue-light text-brand-blue">
+              <Icon className="h-6 w-6" />
+            </span>
+            <div>
+              <p className="text-sm text-muted-foreground">{label}</p>
+              <p className="text-2xl font-bold text-brand-navy">{value}</p>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
