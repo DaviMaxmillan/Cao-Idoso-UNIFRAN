@@ -16,7 +16,7 @@ export function CarteirinhaCardWithActions(props: Props) {
       </div>
       <SalvarCarteirinhaButton
         cardRef={cardRef}
-        fileName={`carteirinha-${props.nome.toLowerCase().replace(/\s+/g, "-")}.pdf`}
+        fileName={`carteirinha-${props.nome.toLowerCase().replace(/\s+/g, "-")}.jpg`}
       />
     </div>
   );

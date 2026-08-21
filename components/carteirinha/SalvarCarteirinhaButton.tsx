@@ -27,9 +27,11 @@ export function SalvarCarteirinhaButton({ cardRef, fileName }: Props) {
       // html-to-image resolve dentro de um requestAnimationFrame, que não dispara
       // enquanto a aba está em segundo plano. Sem esse limite, sair do navegador no
       // meio da geração deixaria o botão travado no spinner para sempre.
-      // JPEG, não PNG: o PNG entra no PDF sem perda e passava de 8MB, inviável
-      // para mandar no WhatsApp. O cartão não tem transparência, então a troca
-      // não muda o resultado visível.
+      //
+      // JPEG: a carteirinha vai para a galeria do celular e é enviada pelo
+      // WhatsApp, onde imagem aparece direto na conversa. O cartão não tem
+      // transparência, então não há perda em relação ao PNG — e o arquivo fica
+      // bem menor.
       const dataUrl = await Promise.race([
         toJpeg(alvo, {
           pixelRatio: 2,
@@ -42,19 +44,13 @@ export function SalvarCarteirinhaButton({ cardRef, fileName }: Props) {
         ),
       ]);
 
-      const { jsPDF } = await import("jspdf");
-      const largura = alvo.offsetWidth;
-      const altura = alvo.offsetHeight;
-
-      // Página do tamanho exato da carteirinha: sem margens sobrando nem
-      // distorção, e já em retrato por causa da proporção do cartão.
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: [largura, altura],
-      });
-      pdf.addImage(dataUrl, "JPEG", 0, 0, largura, altura);
-      pdf.save(fileName);
+      const blob = await (await fetch(dataUrl)).blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
     } catch (err) {
       setErro(
         err instanceof GeracaoTravadaError
