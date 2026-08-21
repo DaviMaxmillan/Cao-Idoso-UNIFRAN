@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "start": "prisma migrate deploy && next start",
+    "start": "node scripts/checar-database-url.mjs && prisma migrate deploy && next start",
     "lint": "eslint",
     "seed:admin": "tsx scripts/seed-admin.ts",
     "db:limpar": "tsx scripts/limpar-cadastros.ts",
