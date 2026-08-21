@@ -17,8 +17,8 @@ export default function PrivacidadePage() {
             <p>
               Seu nome completo, número de WhatsApp e, se você informar,
               e-mail. Também coletamos os dados do seu cão (nome, idade,
-              raça, sexo, peso) e uma foto dele para montar a carteirinha
-              digital.
+              raça, sexo, peso e se é castrado) e uma foto dele para montar a
+              carteirinha digital.
             </p>
           </section>
 
@@ -28,10 +28,10 @@ export default function PrivacidadePage() {
             </h3>
             <p>
               Para gerar a Carteira Digital do Cão Idoso e enviá-la para o
-              seu WhatsApp. Além disso, caso você autorize, para enviar
-              mensalmente dicas de cuidado e bem-estar para cães idosos pelo
-              mesmo número. Não usamos seus dados para nenhuma outra
-              finalidade.
+              seu WhatsApp. Além disso, caso você autorize, para enviar dicas
+              de cuidado e bem-estar para cães idosos e comunicações do
+              projeto pelo mesmo número. Não usamos seus dados para nenhuma
+              outra finalidade.
             </p>
           </section>
 

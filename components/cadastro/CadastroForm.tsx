@@ -111,6 +111,7 @@ export function CadastroForm() {
       formData.append("raca", values.raca);
       formData.append("sexo", values.sexo);
       formData.append("pesoKg", String(values.pesoKg));
+      formData.append("castrado", values.castrado);
       formData.append("foto", fotoFile, fotoFile.name || "foto.jpg");
 
       const res = await fetch("/api/cadastros", {
@@ -207,7 +208,7 @@ export function CadastroForm() {
                 {...register("autorizaWhatsapp")}
               />
               <span>
-                Autorizo receber dicas mensais do Projeto Cão Idoso pelo{" "}
+                Autorizo receber dicas e comunicações do Projeto Cão Idoso pelo{" "}
                 <span className="font-semibold text-brand-blue">WhatsApp</span>
               </span>
             </label>
@@ -394,6 +395,34 @@ export function CadastroForm() {
               {errors.sexo && (
                 <p className="mt-1 text-xs text-destructive">
                   {errors.sexo.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <Label className="mb-1.5">Castrado?</Label>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { valor: "sim", rotulo: "Sim" },
+                  { valor: "nao", rotulo: "Não" },
+                ].map(({ valor, rotulo }) => (
+                  <label
+                    key={valor}
+                    className="flex cursor-pointer items-center gap-2 rounded-lg border border-input px-3 py-2.5 text-sm has-checked:border-brand-blue has-checked:bg-brand-blue-light"
+                  >
+                    <input
+                      type="radio"
+                      value={valor}
+                      className="size-4 accent-brand-blue"
+                      {...register("castrado")}
+                    />
+                    {rotulo}
+                  </label>
+                ))}
+              </div>
+              {errors.castrado && (
+                <p className="mt-1 text-xs text-destructive">
+                  {errors.castrado.message}
                 </p>
               )}
             </div>

@@ -19,6 +19,7 @@ export async function POST(request: Request) {
     raca: formData.get("raca"),
     sexo: formData.get("sexo"),
     pesoKg: formData.get("pesoKg"),
+    castrado: formData.get("castrado"),
   };
 
   const parsed = cadastroSchema.safeParse(raw);
@@ -79,6 +80,7 @@ export async function POST(request: Request) {
         raca: data.raca,
         sexo: data.sexo,
         pesoKg: data.pesoKg,
+        castrado: data.castrado === "sim",
         fotoBytes: new Uint8Array(foto.bytes),
         fotoMimeType: foto.mimeType,
       },

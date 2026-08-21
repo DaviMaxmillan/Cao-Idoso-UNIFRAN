@@ -18,7 +18,8 @@ const passos = [
   {
     icon: MessageCircle,
     titulo: "3. Receba dicas no WhatsApp",
-    texto: "Todo mês, você recebe dicas de cuidados e bem-estar direto no WhatsApp.",
+    texto:
+      "Você poderá receber dicas e informações do Projeto Cão Idoso pelo WhatsApp.",
   },
 ];
 

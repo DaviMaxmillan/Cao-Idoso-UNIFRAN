@@ -47,7 +47,7 @@ export default async function CarteirinhaProntaPage({
               <>
                 <li className="flex gap-2">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" />
-                  Você receberá dicas mensais sobre cães idosos
+                  Você poderá receber dicas e informações sobre cães idosos
                 </li>
                 <li className="flex gap-2">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" />
@@ -61,8 +61,8 @@ export default async function CarteirinhaProntaPage({
             ) : (
               <li className="text-muted-foreground">
                 Você receberá a carteirinha no WhatsApp, mas optou por não
-                receber as dicas mensais. Se mudar de ideia, fale com a equipe
-                do projeto no dia do evento.
+                receber as dicas e comunicações do projeto. Se mudar de ideia,
+                fale com a equipe no dia do evento.
               </li>
             )}
           </ul>

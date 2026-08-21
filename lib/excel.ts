@@ -9,6 +9,7 @@ type CadastroRow = {
   idadeAnos: number;
   sexo: string;
   pesoKg: number;
+  castrado: boolean;
   nomeTutor: string;
   whatsapp: string;
   email: string | null;
@@ -27,10 +28,11 @@ export async function buildCadastrosWorkbook(rows: CadastroRow[]) {
     { header: "Idade (anos)", key: "idadeAnos", width: 14 },
     { header: "Sexo", key: "sexo", width: 10 },
     { header: "Peso (kg)", key: "pesoKg", width: 12 },
+    { header: "Castrado", key: "castrado", width: 10 },
     { header: "Tutor", key: "nomeTutor", width: 26 },
     { header: "WhatsApp", key: "whatsapp", width: 18 },
     { header: "E-mail", key: "email", width: 26 },
-    { header: "Autorizou dicas mensais", key: "autoriza", width: 22 },
+    { header: "Autorizou contato WhatsApp", key: "autoriza", width: 26 },
     { header: "Cadastrado em", key: "createdAt", width: 20 },
   ];
   sheet.getRow(1).font = { bold: true };
@@ -43,6 +45,7 @@ export async function buildCadastrosWorkbook(rows: CadastroRow[]) {
       idadeAnos: row.idadeAnos,
       sexo: row.sexo === "MACHO" ? "Macho" : "Fêmea",
       pesoKg: row.pesoKg,
+      castrado: row.castrado ? "Sim" : "Não",
       nomeTutor: row.nomeTutor,
       whatsapp: formatWhatsapp(row.whatsapp),
       email: row.email ?? "",

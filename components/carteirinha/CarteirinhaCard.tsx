@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PawHeartLogo } from "@/components/brand/PawHeartLogo";
+import { PawIcon } from "@/components/brand/PawIcon";
 
 type Props = {
   nome: string;
@@ -32,7 +33,8 @@ export function CarteirinhaCard({
       </div>
 
       <div className="relative mt-4 flex min-h-52 items-end overflow-hidden bg-brand-blue-deep px-5 pt-6 pb-4 text-white">
-        <div className="relative z-10 max-w-[58%] space-y-1 text-sm">
+        <PawIcon className="absolute top-4 left-5 z-10 h-8 w-8 text-brand-red" />
+        <div className="relative z-10 max-w-[58%] space-y-1 pt-10 text-sm">
           <p className="text-2xl font-extrabold break-words">{nome}</p>
           <p>{idadeAnos} anos</p>
           <p className="break-words">{raca}</p>
@@ -49,14 +51,6 @@ export function CarteirinhaCard({
         />
       </div>
 
-      <div className="flex items-center gap-2 px-5 py-4">
-        <PawHeartLogo className="h-6 w-6 text-brand-blue" />
-        <span className="text-sm font-bold leading-tight text-brand-navy">
-          Cão Idoso
-          <br />
-          UNIFRAN
-        </span>
-      </div>
     </div>
   );
 }

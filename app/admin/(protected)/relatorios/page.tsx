@@ -46,8 +46,14 @@ export default async function AdminRelatoriosPage() {
     .slice(0, 8);
 
   const porAutorizacao = [
-    { label: "Autorizaram as dicas", valor: totalAutorizados },
+    { label: "Autorizaram o contato", valor: totalAutorizados },
     { label: "Não autorizaram", valor: totalCaes - totalAutorizados },
+  ];
+
+  const castrados = cadastros.filter((c) => c.castrado).length;
+  const porCastracao = [
+    { label: "Castrados", valor: castrados },
+    { label: "Não castrados", valor: totalCaes - castrados },
   ];
 
   return (
@@ -62,13 +68,14 @@ export default async function AdminRelatoriosPage() {
       <div className="grid gap-4 lg:grid-cols-2">
         <BarraDistribuicao titulo="Por faixa etária" itens={porFaixaEtaria} />
         <BarraDistribuicao titulo="Por sexo" itens={porSexo} />
+        <BarraDistribuicao titulo="Castração" itens={porCastracao} />
         <BarraDistribuicao
           titulo="Raças mais frequentes"
           itens={porRaca}
           vazio="Nenhum cão cadastrado ainda."
         />
         <BarraDistribuicao
-          titulo="Autorização das dicas mensais"
+          titulo="Autorização de contato pelo WhatsApp"
           itens={porAutorizacao}
         />
       </div>

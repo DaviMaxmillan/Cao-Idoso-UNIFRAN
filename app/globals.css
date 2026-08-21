@@ -11,6 +11,7 @@
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-deep: var(--brand-blue-deep);
   --color-brand-blue-light: var(--brand-blue-light);
+  --color-brand-red: var(--brand-red);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-geist-sans);
@@ -58,6 +59,7 @@
   --brand-blue-deep: #033583; /* seções e faixa da carteirinha */
   --brand-blue: #005bd4; /* botões e destaques */
   --brand-blue-light: #eaf3ff;
+  --brand-red: #e13738; /* patinha de destaque da carteirinha */
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

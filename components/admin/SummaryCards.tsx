@@ -20,12 +20,12 @@ export function SummaryCards({
     },
     {
       icon: MessageCircle,
-      label: "Autorizaram as dicas mensais",
+      label: "Autorizaram contato pelo WhatsApp",
       value: totalAutorizados,
     },
     {
       icon: MessageCircleOff,
-      label: "Não autorizaram — não enviar",
+      label: "Não autorizaram — não contatar",
       value: totalCaes - totalAutorizados,
     },
     {

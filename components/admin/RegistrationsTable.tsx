@@ -22,6 +22,7 @@ export type RegistrationRow = {
   nomeTutor: string;
   whatsapp: string;
   autorizaWhatsapp: boolean;
+  castrado: boolean;
 };
 
 export function RegistrationsTable({
@@ -65,7 +66,8 @@ export function RegistrationsTable({
               <TableHead>Cão</TableHead>
               <TableHead>Tutor</TableHead>
               <TableHead>WhatsApp</TableHead>
-              <TableHead>Dicas mensais</TableHead>
+              <TableHead>Castrado</TableHead>
+              <TableHead>Contato</TableHead>
               <TableHead>Carteirinha</TableHead>
             </TableRow>
           </TableHeader>
@@ -83,14 +85,15 @@ export function RegistrationsTable({
                 </TableCell>
                 <TableCell>{row.nomeTutor}</TableCell>
                 <TableCell>{row.whatsapp}</TableCell>
+                <TableCell>{row.castrado ? "Sim" : "Não"}</TableCell>
                 <TableCell>
                   {row.autorizaWhatsapp ? (
                     <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
-                      Dicas autorizadas
+                      Autorizado
                     </Badge>
                   ) : (
                     <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100">
-                      Não enviar dicas
+                      Não contatar
                     </Badge>
                   )}
                 </TableCell>
@@ -108,7 +111,7 @@ export function RegistrationsTable({
             {filtradas.length === 0 && (
               <TableRow>
                 <TableCell
-                  colSpan={6}
+                  colSpan={7}
                   className="py-8 text-center text-muted-foreground"
                 >
                   Nenhum cadastro encontrado.

@@ -30,6 +30,8 @@ export const cadastroSchema = z.object({
     .max(35, "Idade inválida."),
   raca: z.string().trim().min(1, "Informe a raça (ou \"SRD\")."),
   sexo: z.enum(["MACHO", "FEMEA"], { error: "Selecione o sexo do cão." }),
+  // vem do formulário como "sim"/"não": sem valor inicial, obriga uma escolha
+  castrado: z.enum(["sim", "nao"], { error: "Informe se o cão é castrado." }),
   pesoKg: z.coerce
     .number({ error: "Informe o peso do cão." })
     .positive("Peso inválido.")

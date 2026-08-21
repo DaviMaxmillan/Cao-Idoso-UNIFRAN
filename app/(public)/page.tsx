@@ -22,8 +22,8 @@ export default function HomePage() {
             </h2>
           </div>
           <p className="mb-5 text-sm text-muted-foreground">
-            Crie a carteirinha do seu cão e receba todo mês dicas de cuidados
-            e bem-estar direto no{" "}
+            Crie a carteirinha do seu cão e receba dicas de cuidados e
+            bem-estar do Projeto Cão Idoso pelo{" "}
             <span className="font-semibold text-brand-blue">WhatsApp</span>.
           </p>
           <Button

@@ -22,6 +22,7 @@ export function toRegistrationRow(cao: Cadastro): RegistrationRow {
     nomeTutor: cao.tutor.nomeCompleto,
     whatsapp: formatWhatsapp(cao.tutor.whatsapp),
     autorizaWhatsapp: cao.tutor.autorizaWhatsapp,
+    castrado: cao.castrado,
   };
 }
 

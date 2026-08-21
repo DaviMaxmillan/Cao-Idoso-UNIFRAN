@@ -39,6 +39,7 @@ model Cao {
   raca              String
   sexo              Sexo
   pesoKg            Decimal  @db.Decimal(5, 2)
+  castrado          Boolean
 
   fotoBytes         Bytes
   fotoMimeType      String

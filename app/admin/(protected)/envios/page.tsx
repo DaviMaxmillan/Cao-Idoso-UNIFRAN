@@ -41,10 +41,10 @@ export default async function AdminEnviosPage() {
         <div className="space-y-1">
           <p>
             O sistema não envia mensagens. Use “Copiar lista para WhatsApp” para
-            montar a lista de transmissão das dicas mensais — ela inclui apenas{" "}
+            montar a lista de transmissão do projeto — ela inclui apenas{" "}
             {totalAutorizados === 1
-              ? "o único tutor que autorizou"
-              : `os ${totalAutorizados} tutores que autorizaram`}
+              ? "o único tutor que autorizou o contato"
+              : `os ${totalAutorizados} tutores que autorizaram o contato`}
             .
           </p>
           <p>

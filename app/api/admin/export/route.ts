@@ -16,6 +16,7 @@ export async function GET() {
       idadeAnos: cao.idadeAnos,
       sexo: cao.sexo,
       pesoKg: Number(cao.pesoKg),
+      castrado: cao.castrado,
       nomeTutor: cao.tutor.nomeCompleto,
       whatsapp: cao.tutor.whatsapp,
       email: cao.tutor.email,
