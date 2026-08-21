@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PawHeartLogo } from "@/components/brand/PawHeartLogo";
-import { UnifranLogo } from "@/components/brand/UnifranLogo";
 import { DotPattern } from "@/components/brand/DotPattern";
 import { WaveDivider } from "@/components/brand/WaveDivider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -9,28 +8,15 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 type Props = {
   backHref?: string;
   heading?: string;
-  /** Exibe o logo institucional da UNIFRAN no topo branco (usado na home). */
-  comLogoUnifran?: boolean;
   children: React.ReactNode;
 };
 
 /** Moldura compartilhada pelas telas públicas: topo branco com logo, curva azul, rodapé. */
-export function PublicShell({
-  backHref,
-  heading,
-  comLogoUnifran = false,
-  children,
-}: Props) {
+export function PublicShell({ backHref, heading, children }: Props) {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="relative overflow-hidden bg-white px-6 pt-10 pb-2 text-center">
         <DotPattern className="pointer-events-none absolute top-6 right-4 h-16 w-16 text-brand-blue-light" />
-        {comLogoUnifran && (
-          <UnifranLogo
-            decorativo
-            className="pointer-events-none absolute top-12 left-3 w-52 opacity-15"
-          />
-        )}
         {backHref && (
           <Link
             href={backHref}

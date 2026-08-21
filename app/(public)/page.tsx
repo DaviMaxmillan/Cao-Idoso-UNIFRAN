@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <PublicShell comLogoUnifran>
+    <PublicShell>
       <div className="mx-auto max-w-sm pt-2">
         <HeroDogPhoto />
 
