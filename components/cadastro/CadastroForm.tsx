@@ -23,6 +23,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+const SEXOS: Record<string, string> = { MACHO: "Macho", FEMEA: "Fêmea" };
+
 export function CadastroForm() {
   const router = useRouter();
   const [step, setStep] = useState<1 | 2>(1);
@@ -286,7 +288,9 @@ export function CadastroForm() {
               ref={fileInputRef}
               type="file"
               accept="image/*"
-              capture="environment"
+              // Sem "capture": com ele o celular abre a câmera direto e o tutor
+              // não consegue escolher uma foto que já tem na galeria. Assim o
+              // próprio sistema oferece as duas opções.
               className="hidden"
               onChange={handleFotoChange}
             />
@@ -367,13 +371,22 @@ export function CadastroForm() {
                 name="sexo"
                 control={control}
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    // Sem "items" o campo exibe o valor cru ("MACHO") depois de
+                    // escolher, em vez do rótulo.
+                    items={SEXOS}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="MACHO">Macho</SelectItem>
-                      <SelectItem value="FEMEA">Fêmea</SelectItem>
+                      {Object.entries(SEXOS).map(([valor, rotulo]) => (
+                        <SelectItem key={valor} value={valor}>
+                          {rotulo}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 )}
