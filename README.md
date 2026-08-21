@@ -51,7 +51,17 @@ npm run dev
 
 ## Deploy no Railway
 
-Dois recursos no projeto: o serviço da aplicação (build automático via Nixpacks) e o plugin **PostgreSQL**, que injeta `DATABASE_URL` automaticamente.
+Dois recursos no projeto: o serviço da aplicação (build automático via Nixpacks) e o banco **PostgreSQL**.
+
+O `DATABASE_URL` existe no serviço do banco, mas **não chega sozinho ao serviço da aplicação** — é preciso referenciá-lo. Em *Variables* do serviço da aplicação, crie:
+
+| Variável | Valor |
+| --- | --- |
+| `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` (troque `Postgres` pelo nome do serviço do banco) |
+| `SESSION_SECRET` | 32+ caracteres aleatórios |
+| `EVENT_YEAR` | `2026` |
+
+Colar uma URL literal aqui não funciona: o endereço do banco muda, e uma URL apontando para `localhost` faz a aplicação procurar um Postgres dentro do próprio contêiner, que não existe — o erro aparece como `P1001: Can't reach database server`.
 
 O `npm start` roda `prisma migrate deploy` antes do `next start`, então as migrations são aplicadas a cada deploy. Depois do primeiro deploy, crie o usuário administrador uma vez:
 
