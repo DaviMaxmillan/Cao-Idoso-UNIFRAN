@@ -14,6 +14,48 @@ const TIMEOUT_GERACAO_MS = 15000;
 
 class GeracaoTravadaError extends Error {}
 
+const OPCOES = {
+  pixelRatio: 2,
+  quality: 0.92,
+  cacheBust: true,
+  backgroundColor: "#033583",
+} as const;
+
+/** Espera cada foto do cartão estar realmente decodificada e pronta para pintar. */
+async function aguardarImagens(alvo: HTMLElement) {
+  const imagens = Array.from(alvo.querySelectorAll("img"));
+  await Promise.all(
+    imagens.map(async (img) => {
+      try {
+        if (!img.complete) {
+          await new Promise((resolve) => {
+            img.addEventListener("load", resolve, { once: true });
+            img.addEventListener("error", resolve, { once: true });
+          });
+        }
+        await img.decode?.();
+      } catch {
+        // uma foto que falhe não pode impedir a geração do resto do cartão
+      }
+    })
+  );
+}
+
+/**
+ * Gera a imagem do cartão.
+ *
+ * A captura roda duas vezes de propósito: no Safari, a primeira passada sai sem
+ * as fotos, porque elas ainda não foram carregadas no clone que a biblioteca
+ * monta — era esse o motivo de a carteirinha salva no iPhone vir sem o cão. A
+ * segunda passada já encontra tudo no lugar. Nos demais navegadores o resultado
+ * é o mesmo; só custa uma renderização a mais de um cartão pequeno.
+ */
+async function gerarImagem(alvo: HTMLElement) {
+  await aguardarImagens(alvo);
+  await toJpeg(alvo, OPCOES);
+  return toJpeg(alvo, OPCOES);
+}
+
 export function SalvarCarteirinhaButton({ cardRef, fileName }: Props) {
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
@@ -33,12 +75,7 @@ export function SalvarCarteirinhaButton({ cardRef, fileName }: Props) {
       // transparência, então não há perda em relação ao PNG — e o arquivo fica
       // bem menor.
       const dataUrl = await Promise.race([
-        toJpeg(alvo, {
-          pixelRatio: 2,
-          quality: 0.92,
-          cacheBust: true,
-          backgroundColor: "#033583",
-        }),
+        gerarImagem(alvo),
         new Promise<never>((_, reject) =>
           setTimeout(() => reject(new GeracaoTravadaError()), TIMEOUT_GERACAO_MS)
         ),

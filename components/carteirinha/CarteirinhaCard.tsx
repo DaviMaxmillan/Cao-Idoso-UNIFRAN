@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Calendar, Dog, Scale, Scissors, VenusAndMars } from "lucide-react";
 import { PawIcon } from "@/components/brand/PawIcon";
 
@@ -39,9 +38,18 @@ export function CarteirinhaCard({
     <div className="mx-auto w-full max-w-[340px] overflow-hidden rounded-3xl bg-brand-blue-deep shadow-xl">
       <div className="relative p-4 pb-6">
         <PawIcon className="absolute top-6 right-6 z-10 h-8 w-8 text-brand-red drop-shadow" />
-        {/* quadrado: é a mesma proporção do recorte feito pelo tutor, então a
-            foto preenche sem distorcer nem sobrar fundo */}
-        <Image
+        {/*
+          <img> puro, e não next/image, de propósito: este cartão é rasterizado
+          para virar o arquivo que o tutor salva. O next/image serve a foto por
+          /_next/image e com srcset, e no Safari a imagem não era embutida na
+          captura — a carteirinha salva saía sem o cão. Aqui a origem é uma URL
+          direta e única.
+
+          O quadrado é a mesma proporção do recorte feito pelo tutor, então a
+          foto preenche sem distorcer nem sobrar fundo.
+        */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={fotoUrl}
           alt={`Foto de ${nome}`}
           width={340}
