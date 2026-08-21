@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Info } from "lucide-react";
 import { db } from "@/lib/db";
-import { formatNumeroCarteirinha } from "@/lib/numero";
+import { toCarteirinhaProps } from "@/lib/carteirinha";
 import { PublicShell } from "@/components/layout/PublicShell";
 import { CarteirinhaCardWithActions } from "@/components/carteirinha/CarteirinhaCardWithActions";
 
@@ -23,15 +23,7 @@ export default async function CarteirinhaPage({
   return (
     <PublicShell backHref="/" heading="Carteirinha pronta">
       <div className="mx-auto max-w-sm space-y-6 pt-2">
-        <CarteirinhaCardWithActions
-          nome={cao.nome}
-          idadeAnos={cao.idadeAnos}
-          raca={cao.raca}
-          pesoKg={cao.pesoKg.toString()}
-          tutorNome={cao.tutor.nomeCompleto}
-          numero={formatNumeroCarteirinha(cao.numeroSequencial)}
-          fotoUrl={`/api/imagens/${cao.id}`}
-        />
+        <CarteirinhaCardWithActions {...toCarteirinhaProps(cao)} />
 
         <div className="flex items-start gap-2 rounded-2xl bg-white/10 p-4 text-sm text-white">
           <Info className="mt-0.5 h-4 w-4 shrink-0" />

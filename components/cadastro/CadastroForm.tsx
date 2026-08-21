@@ -12,6 +12,7 @@ import {
   tutorFields,
   type CadastroFormValues,
 } from "@/lib/validation";
+import { RecortarFoto } from "@/components/cadastro/RecortarFoto";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,6 +32,9 @@ export function CadastroForm() {
   const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [fotoPreview, setFotoPreview] = useState<string | null>(null);
   const [fotoError, setFotoError] = useState<string | null>(null);
+  const [imagemParaRecortar, setImagemParaRecortar] = useState<string | null>(
+    null
+  );
   const [comprimindo, setComprimindo] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [erroEnvio, setErroEnvio] = useState<string | null>(null);
@@ -57,9 +61,22 @@ export function CadastroForm() {
     const file = e.target.files?.[0];
     if (!file) return;
     setFotoError(null);
+    // Abre o recorte antes de aceitar a foto; a compressão vem depois, já sobre
+    // o enquadramento escolhido.
+    setImagemParaRecortar(URL.createObjectURL(file));
+    // Libera o input para permitir reescolher o mesmo arquivo depois.
+    e.target.value = "";
+  }
+
+  async function aoConfirmarRecorte(recorte: Blob) {
+    const url = imagemParaRecortar;
+    setImagemParaRecortar(null);
+    if (url) URL.revokeObjectURL(url);
+
     setComprimindo(true);
     try {
-      const compressed = await imageCompression(file, {
+      const arquivo = new File([recorte], "foto.jpg", { type: "image/jpeg" });
+      const compressed = await imageCompression(arquivo, {
         maxSizeMB: 0.4,
         maxWidthOrHeight: 1080,
         useWebWorker: true,
@@ -71,6 +88,12 @@ export function CadastroForm() {
     } finally {
       setComprimindo(false);
     }
+  }
+
+  function cancelarRecorte() {
+    const url = imagemParaRecortar;
+    setImagemParaRecortar(null);
+    if (url) URL.revokeObjectURL(url);
   }
 
   async function irParaEtapa2() {
@@ -143,6 +166,14 @@ export function CadastroForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="rounded-3xl bg-white p-6 shadow-xl"
     >
+      {imagemParaRecortar && (
+        <RecortarFoto
+          imagemUrl={imagemParaRecortar}
+          onConfirmar={aoConfirmarRecorte}
+          onCancelar={cancelarRecorte}
+        />
+      )}
+
       {step === 1 ? (
         <>
           <h3 className="mb-1 text-center text-2xl font-bold text-brand-navy">
@@ -373,7 +404,9 @@ export function CadastroForm() {
                 control={control}
                 render={({ field }) => (
                   <Select
-                    value={field.value}
+                    // "" em vez de undefined: sem isso o Select nasce
+                    // não-controlado e passa a controlado na primeira escolha.
+                    value={field.value ?? ""}
                     onValueChange={field.onChange}
                     // Sem "items" o campo exibe o valor cru ("MACHO") depois de
                     // escolher, em vez do rótulo.
