@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# anotações com credenciais — o repositório não é lugar para senha de produção
+/Docs/Informacoes.txt
+
 # vercel
 .vercel
 
