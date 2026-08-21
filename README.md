@@ -47,7 +47,6 @@ npm run dev
 | --- | --- |
 | `DATABASE_URL` | String de conexão do PostgreSQL. |
 | `SESSION_SECRET` | Segredo do cookie de sessão do admin (32+ caracteres aleatórios). |
-| `NEXT_PUBLIC_APP_URL` | URL pública da aplicação. |
 | `EVENT_YEAR` | Ano fixo exibido no número da carteirinha (ex.: `2026`). |
 
 ## Deploy no Railway
